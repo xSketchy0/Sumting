@@ -1,7 +1,6 @@
-import Pool from "../../config/Pool.js"
+import Pool from '../../config/Pool.js'
 
 const UserSubscription = {
-    
     /**
      * This function listens to incoming messages from PostgreSQL
      * using the LISTEN/NOTIFY commands
@@ -11,15 +10,15 @@ const UserSubscription = {
     listen: async () => {
         Pool.connect((err, client, done) => {
             if (err) {
-                console.log("Error")
+                console.log('Error')
             } else {
                 client.on('notification', async (data) => {
-                    console.log(data)
+                    const values = JSON.parse(data.payload)
+                    console.log(`Name: ${values.name}\nEmail: ${values.email}`)
                 })
                 client.query('LISTEN event')
             }
         })
-
     },
 }
 

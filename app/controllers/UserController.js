@@ -15,13 +15,14 @@ const UserController = {
             const id = req.params.id || {}
             const data = await (await UserService.getById(id)).rows[0]
 
-            if (data === undefined) return res.json({message: "Nothing found."})
+            if (data === undefined)
+                return res.json({ message: 'Nothing found.' })
 
             const user = new User(data?.id, data?.name, data?.email, data?.age)
             res.json(user)
         } catch (e) {
             res.status(500).json({
-                message: `${e}`
+                message: `${e}`,
             })
         }
     },
@@ -37,14 +38,15 @@ const UserController = {
         try {
             const data = (await UserService.getAll()).rows
 
-            if (data === undefined) return res.json({message: "Nothing found."})
+            if (data === undefined)
+                return res.json({ message: 'Nothing found.' })
             res.json(data)
         } catch (e) {
             res.status(500).json({
-                message: `${e}`
+                message: `${e}`,
             })
         }
-    }
+    },
 }
 
 export default UserController

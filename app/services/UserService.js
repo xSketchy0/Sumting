@@ -1,4 +1,4 @@
-import Pool from "../../config/Pool.js"
+import Pool from '../../config/Pool.js'
 
 const UserService = {
     /**
@@ -10,7 +10,10 @@ const UserService = {
         const pool = await Pool.connect()
 
         try {
-            const res = await pool.query('SELECT * FROM contributor WHERE id = $1', [id])
+            const res = await pool.query(
+                'SELECT * FROM contributor WHERE id = $1',
+                [id]
+            )
             return res
         } catch (err) {
             return err.stack
@@ -34,7 +37,7 @@ const UserService = {
         } finally {
             pool.release()
         }
-    }
+    },
 }
 
 export default UserService

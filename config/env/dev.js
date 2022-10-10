@@ -17,4 +17,7 @@ export const dev = {
         password: process.env.PGSQL_PASSWORD,
         port: process.env.PGSQL_PORT,
     },
+    klaviyo: {
+        apiKey: process.env.KLAVIYO_API
+    }
 }

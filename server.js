@@ -7,6 +7,7 @@ import { dev as env } from './config/env/dev.js'
 import cors from 'cors'
 import path from 'path'
 import { expressCspHeader, NONE, SELF } from 'express-csp-header'
+import KlaviyoRouter from './app/routes/KlaviyoRouter.js'
 
 class Server {
     constructor() {
@@ -23,24 +24,28 @@ class Server {
         this.app.use(express.json())
         this.app.use(express.urlencoded({ extended: false }))
         this.app.use(express.static('public'))
-        this.app.use(cors({
-            origin: 'http://localhost:3000'
-        }))
-        this.app.use(expressCspHeader({
-            policies: {
-                'default-src': [NONE],
-                'img-src': [SELF],
-            }
-        }))
+        this.app.use(
+            cors({
+                origin: 'http://localhost:3000',
+            })
+        )
+        this.app.use(
+            expressCspHeader({
+                policies: {
+                    'default-src': [NONE],
+                    'img-src': [SELF],
+                },
+            })
+        )
     }
 
     setRoutes() {
-
         /**
          * Setting the routes relative to the route
          * given.
          */
         this.app.use('/users', UserRouter)
+        this.app.use('/klaviyo', KlaviyoRouter)
 
         /**
          * Setting the home route and returning an image
@@ -52,13 +57,11 @@ class Server {
     }
 
     setSubscriptions() {
-
         // Setting the listen subscription.
         UserSubscription.listen()
     }
 
     listen() {
-
         // Listen to port.
         this.app.listen(env.express.port, () => {
             console.log(`Example app listening on port ${env.express.port}`)
